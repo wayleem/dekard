@@ -2,7 +2,6 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import * as chokidar from "chokidar";
 import { glob } from "glob";
-import { minimatch } from "minimatch";
 import { Config } from "./config";
 
 async function processFile(filePath: string, outputStream: fs.WriteStream): Promise<void> {

@@ -11,14 +11,13 @@
 		"prepublishOnly": "npm run build"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "wayleem",
 	"license": "ISC",
 	"dependencies": {
 		"@types/node": "^22.1.0",
 		"chokidar": "^3.6.0",
 		"fs-extra": "^11.2.0",
 		"glob": "^11.0.0",
-		"minimatch": "^10.0.1",
 		"typescript": "^5.5.4"
 	},
 	"devDependencies": {
