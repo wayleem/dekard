@@ -1,8 +1,13 @@
 {
 	"name": "dekard",
 	"version": "1.0.0",
-	"description": "",
+	"description": "A powerful file concatenation tool to provide project context for AI.",
 	"main": "dist/index.js",
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
 	"bin": {
 		"dekard": "./dist/cli.js"
 	},
@@ -10,7 +15,13 @@
 		"build": "tsc",
 		"prepublishOnly": "npm run build"
 	},
-	"keywords": [],
+	"keywords": [
+		"file",
+		"concatenation",
+		"typescript",
+		"cli",
+		"watch"
+	],
 	"author": "wayleem",
 	"license": "ISC",
 	"dependencies": {
@@ -18,6 +29,7 @@
 		"chokidar": "^3.6.0",
 		"fs-extra": "^11.2.0",
 		"glob": "^11.0.0",
+		"minimatch": "^5.1.2",
 		"typescript": "^5.5.4"
 	},
 	"devDependencies": {
