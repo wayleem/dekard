@@ -1,6 +1,6 @@
 {
 	"name": "dekard",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "A powerful file concatenation tool to provide project context for AI.",
 	"main": "dist/index.js",
 	"files": [
@@ -9,7 +9,7 @@
 		"LICENSE"
 	],
 	"bin": {
-		"dekard": "./dist/cli.js"
+		"dekard": "dist/cli.js"
 	},
 	"scripts": {
 		"build": "tsc",
