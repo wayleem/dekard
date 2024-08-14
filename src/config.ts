@@ -7,14 +7,16 @@ export interface Config {
 	include: string[];
 	ignore: string[];
 	watch: boolean;
+	verbose: boolean;
 }
 
-const DEFAULT_CONFIG: Config = {
+export const DEFAULT_CONFIG: Config = {
 	inputDir: ".",
 	outputFile: "dekard-output.txt",
 	include: ["**/*"],
 	ignore: ["node_modules/**", ".git/**"],
 	watch: false,
+	verbose: false,
 };
 
 export async function loadConfig(configPath: string = "dekard.json"): Promise<Config> {

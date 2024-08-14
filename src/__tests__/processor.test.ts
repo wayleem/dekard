@@ -33,6 +33,7 @@ describe("Processor", () => {
 			include: ["**/*.ts"],
 			ignore: [],
 			watch: false,
+			verbose: false,
 		});
 
 		expect(mockWriteStream.write).toHaveBeenCalledTimes(6);

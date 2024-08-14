@@ -28,6 +28,7 @@ describe("Config", () => {
 			include: ["**/*"],
 			ignore: ["node_modules/**", ".git/**"],
 			watch: false,
+			verbose: false,
 		});
 
 		console.warn = originalWarn;
@@ -40,6 +41,7 @@ describe("Config", () => {
 			include: ["**/*"],
 			ignore: [],
 			watch: false,
+			verbose: false,
 		});
 		expect(config.inputDir).toContain("/src");
 		expect(config.outputFile).toContain("/output.txt");

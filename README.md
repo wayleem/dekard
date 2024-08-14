@@ -1,6 +1,6 @@
 # Dekard
 
-**Dekard is a powerful file concatenation tool**. It allows you to process entire project directories, concatenating the contents of specified files into a single output file, with the ability to watch for changes and update the output automatically. Dekard is perfect for _compiling your project into context to provide to AI_.
+**Dekard is a simple file concatenation tool**. It allows you to process entire project directories, concatenating the contents of specified files into a single output file, with the ability to watch for changes and update the output automatically. Dekard is perfect for _compiling your project into context to provide for AI_.
 
 ## ✨Features
 
@@ -9,6 +9,9 @@
 -   🔍Flexible file inclusion and exclusion with glob patterns
 -   👀Watch mode for automatic updates on file changes
 -   🖥️Easy to use CLI and programmatic API
+-   🧠 Intelligent file ordering based on dependencies
+-   🌐 Support for multiple languages (JavaScript, TypeScript, Python, Java)
+-   🗣️ Verbose logging option for detailed output
 
 ## 🚀Installation
 
@@ -38,6 +41,12 @@ This will create a `dekard.json` file with default settings. 2. Run dekard
 
 ```bash
 dekard
+```
+
+For verbose output:
+
+```bash
+dekard --verbose
 ```
 
 _Or specify a custom config file_:
@@ -73,6 +82,7 @@ The `dekard.json` file supports the following options:
 -   `include` (string[]): Glob patterns for files to include.
 -   `ignore` (string[]): Glob patterns for files to ignore.
 -   `watch` (boolean): Whether to watch for file changes and update the output automatically.
+-   `verbose` (boolean): Whether to output detailed logging information.
 
 ### Example Config `dekard.json`:
 
@@ -80,9 +90,10 @@ The `dekard.json` file supports the following options:
 {
 	"inputDir": "./src",
 	"outputFile": "./concatenated-output.txt",
-	"include": ["**/*.ts", "**/*.js"],
-	"ignore": ["**/*.test.ts", "**/*.spec.js", "node_modules/**"],
-	"watch": false
+	"include": ["**/*.ts", "**/*.tsx"],
+	"ignore": ["**/*.test.ts", "node_modules/**"],
+	"watch": false,
+	"verbose": false
 }
 ```
 
@@ -138,28 +149,40 @@ Using the following `dekard.json`:
 	"outputFile": "./output.txt",
 	"include": ["**/*.ts"],
 	"ignore": ["**/*.test.ts"],
-	"watch": false
+	"watch": false,
+	"verbose": false
 }
 ```
 
 The resulting `output.txt` would look like this:
 
 ```
-// File: src/main.ts
-import { helper } from './utils';
-import { CONSTANT } from './utils';
-
-console.log(helper(CONSTANT));
-
 // File: src/utils.ts
 export function helper(value: string): string {
   return `Helper: ${value}`;
 }
 
 export const CONSTANT = 'Some constant value';
+
+// File: src/main.ts
+import { helper } from './utils';
+import { CONSTANT } from './utils';
+
+console.log(helper(CONSTANT));
 ```
 
 _You can just provide this file to any LLM and they will understand your project structure to work based off of it._
+
+## 🧠 Intelligent File Ordering
+
+Dekard now includes intelligent file ordering based on dependencies. This feature:
+
+-   Analyzes imports and dependencies in your files
+-   Orders files so that dependencies come before the files that use them
+-   Supports JavaScript, TypeScript, Python, and Java
+-   Falls back to original order if circular dependencies are detected
+
+This ordering helps maintain a logical flow in the concatenated output, making it easier for humans or AI to understand the project structure and dependencies at a glance.
 
 ## 🤝Contributing
 

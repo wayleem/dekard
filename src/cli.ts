@@ -1,39 +1,38 @@
 #!/usr/bin/env node
-
 import { processDirectory, watchDirectory, loadConfig, resolveConfig } from "./index";
 import fs from "fs-extra";
 import path from "path";
-
-const defaultConfig = {
-	inputDir: "./src",
-	outputFile: "./dekard-output.txt",
-	include: ["**/*.ts", "**/*.js"],
-	ignore: ["**/*.test.ts", "**/*.test.js", "**/node_modules/**"],
-	watch: false,
-};
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+import { DEFAULT_CONFIG } from "./config";
 
 async function createConfigFile() {
 	const configPath = path.resolve(process.cwd(), "dekard.json");
-
 	if (await fs.pathExists(configPath)) {
 		console.log(`Config file already exists at ${configPath}`);
 		return;
 	}
-
-	await fs.writeJson(configPath, defaultConfig, { spaces: 2 });
+	await fs.writeJson(configPath, DEFAULT_CONFIG, { spaces: 2 });
 	console.log(`Config file created at ${configPath}`);
 }
 
 async function main() {
-	const command = process.argv[2];
+	const argv = await yargs(hideBin(process.argv))
+		.option("verbose", {
+			alias: "v",
+			type: "boolean",
+			description: "Run with verbose logging",
+		})
+		.parse();
 
+	const command = argv._[0];
 	if (command === "init") {
 		await createConfigFile();
 		return;
 	}
 
 	const config = resolveConfig(await loadConfig());
-
+	config.verbose = argv.verbose || false;
 	if (config.watch) {
 		watchDirectory(config);
 	} else {
