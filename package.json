@@ -1,6 +1,6 @@
 {
 	"name": "dekard",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "A simple file concatenation tool to provide project context for AI.",
 	"main": "dist/index.js",
 	"files": [

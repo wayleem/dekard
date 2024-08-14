@@ -16,7 +16,19 @@ const analyzers: Record<string, LanguageAnalyzer> = {
 			return Array.from(content.matchAll(importRegex), (m) => m[1]);
 		},
 	},
+	".jsx": {
+		analyzeImports: (content: string) => {
+			const importRegex = /(?:import|require)\s*\(?['"](.+?)['"]\)?/g;
+			return Array.from(content.matchAll(importRegex), (m) => m[1]);
+		},
+	},
 	".ts": {
+		analyzeImports: (content: string) => {
+			const importRegex = /(?:import|from)\s+['"](.+?)['"]/g;
+			return Array.from(content.matchAll(importRegex), (m) => m[1]);
+		},
+	},
+	".tsx": {
 		analyzeImports: (content: string) => {
 			const importRegex = /(?:import|from)\s+['"](.+?)['"]/g;
 			return Array.from(content.matchAll(importRegex), (m) => m[1]);
@@ -43,11 +55,10 @@ async function analyzeDependencies(files: string[], config: Config): Promise<Map
 		try {
 			const content = await fs.readFile(file, "utf-8");
 			const ext = path.extname(file);
-			const analyzer = analyzers[ext];
+			const analyzer = analyzers[ext] || analyzers[".js"]; // Fallback to .js analyzer
 
 			if (!analyzer) {
-				verboseLog(config, `No analyzer found for file type: ${ext}. Skipping dependency analysis for ${file}`);
-				continue;
+				verboseLog(config, `No analyzer found for file type: ${ext}. Using default analyzer for ${file}`);
 			}
 
 			const imports = analyzer.analyzeImports(content);
@@ -55,11 +66,11 @@ async function analyzeDependencies(files: string[], config: Config): Promise<Map
 
 			for (const importPath of imports) {
 				try {
-					const resolvedPath = path.resolve(path.dirname(file), importPath);
-					if (await fs.pathExists(resolvedPath)) {
+					const resolvedPath = await resolveImportPath(path.dirname(file), importPath);
+					if (resolvedPath) {
 						deps.add(resolvedPath);
 					} else {
-						verboseLog(config, `Warning: Import not found: ${resolvedPath}`);
+						verboseLog(config, `Warning: Import not found: ${importPath} in ${file}`);
 					}
 				} catch (error) {
 					verboseLog(config, `Error resolving import ${importPath} in ${file}: ${error}`);
@@ -160,4 +171,34 @@ export function watchDirectory(config: Config): chokidar.FSWatcher {
 
 	verboseLog(config, `Watching directory: ${inputDir}`);
 	return watcher;
+}
+
+async function resolveImportPath(basePath: string, importPath: string): Promise<string | null> {
+	const extensions = [".ts", ".tsx", ".js", ".jsx"];
+
+	// If the import already has an extension, try that first
+	if (path.extname(importPath)) {
+		const fullPath = path.resolve(basePath, importPath);
+		if (await fs.pathExists(fullPath)) {
+			return fullPath;
+		}
+	}
+
+	// Try adding each extension
+	for (const ext of extensions) {
+		const fullPath = path.resolve(basePath, importPath + ext);
+		if (await fs.pathExists(fullPath)) {
+			return fullPath;
+		}
+	}
+
+	// Try treating it as a directory and looking for index files
+	for (const ext of extensions) {
+		const fullPath = path.resolve(basePath, importPath, "index" + ext);
+		if (await fs.pathExists(fullPath)) {
+			return fullPath;
+		}
+	}
+
+	return null;
 }
