@@ -2,18 +2,18 @@
 
 **Dekard is a simple file concatenation tool**. It allows you to process entire project directories, concatenating the contents of specified files into a single output file, with the ability to watch for changes and update the output automatically. Dekard is perfect for _compiling your project into context to provide for AI_.
 
-## ✨Features
+## Features
 
--   🔗Concatenate multiple files into a single output file
--   💬Add file path comments to the concatenated output
--   🔍Flexible file inclusion and exclusion with glob patterns
--   👀Watch mode for automatic updates on file changes
--   🖥️Easy to use CLI and programmatic API
--   🧠 Intelligent file ordering based on dependencies
--   🌐 Support for multiple languages (JavaScript, TypeScript, Python, Java)
--   🗣️ Verbose logging option for detailed output
+-   Concatenate multiple files into a single output file
+-   Add file path comments to the concatenated output
+-   Flexible file inclusion and exclusion with glob patterns
+-   Watch mode for automatic updates on file changes
+-   Easy to use CLI and programmatic API
+-   Intelligent file ordering based on dependencies
+-   Support for multiple languages (JavaScript, TypeScript, Python, Java)
+-   Verbose logging option for detailed output
 
-## 🚀Installation
+## Installation
 
 Install dekard globally:
 
@@ -27,7 +27,7 @@ Or as a dependency in your project:
 npm install dekard
 ```
 
-## 🔧Usage
+## Usage
 
 ### Command Line Interface
 
@@ -73,7 +73,7 @@ async function run() {
 run().catch(console.error);
 ```
 
-## ⚙️Configuration
+## Configuration
 
 The `dekard.json` file supports the following options:
 
@@ -97,7 +97,7 @@ The `dekard.json` file supports the following options:
 }
 ```
 
-## 📝Example
+## Example
 
 Let's say you have the following directory structure:
 
@@ -173,7 +173,7 @@ console.log(helper(CONSTANT));
 
 _You can just provide this file to any LLM and they will understand your project structure to work based off of it._
 
-## 🧠 Intelligent File Ordering
+## Intelligent File Ordering
 
 Dekard now includes intelligent file ordering based on dependencies. This feature:
 
@@ -184,7 +184,7 @@ Dekard now includes intelligent file ordering based on dependencies. This featur
 
 This ordering helps maintain a logical flow in the concatenated output, making it easier for humans or AI to understand the project structure and dependencies at a glance.
 
-## 🤝Contributing
+## Contributing
 
 Contributions are welcome! Here are some ways you can contribute to this project:
 
@@ -214,6 +214,6 @@ npm test
 
 This will run all unit and integration tests for the project.
 
-## 📄License
+## License
 
 This project is licensed under the ISC License. See the LICENSE file for details.
